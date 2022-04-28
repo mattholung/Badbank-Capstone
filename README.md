@@ -2,10 +2,9 @@
 
 Project Title: Bad Bank 3 Tier Application.
 
-Description/Motivation: This project's purpose it to fulfill my assignments for MITXPRO Full-Stack Development online course. This will be the official repository for all work done on my Bad Bank project.
+Description/Motivation: This project's purpose it to fulfill my assignments for my MITXPRO Full-Stack Development online course. This will be the official repository for all work done on my Bad Bank project. You should be able to create an account, login, make a deposit or withdrawal, check the account balance, and display all user data. The sole purpose of this repo is to learn. 
 
-Installation Guidelines: Clear instructions on how to get your project up and running (e.g., git clone, git pull, npm init).
-Screenshots: Screenshots or a GIF of your project in action.
+Installation Guidelines: Pull this repository and clone it onto your own machine using 'git clone https://github.com/mattholung/Week27.git'
 
 Technology used: The front-end was built using React. Its running on an ExpressJS server, and the database is handled using MongoDB within a docker container. 
 
