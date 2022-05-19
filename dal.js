@@ -1,65 +1,34 @@
 const MongoClient = require('mongodb').MongoClient;
 const url         = 'mongodb://localhost:27017';
 let db            = null;
- 
+
 // connect to mongo
 MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
-    console.log("Connected successfully to db server");
+    console.log('Successfully connected to the DB server!');
 
-    // connect to myproject database
+    // connect to 'myproject' database
     db = client.db('myproject');
 });
 
 // create user account
 function create(name, email, password){
-    return new Promise((resolve, reject) => {    
+    return new Promise((resolve, reject) => {
         const collection = db.collection('users');
         const doc = {name, email, password, balance: 0};
         collection.insertOne(doc, {w:1}, function(err, result) {
             err ? reject(err) : resolve(doc);
-        });    
+        });
     })
 }
-
-// find user account
-function find(email){
+function userdata(){
     return new Promise((resolve, reject) => {    
         const customers = db
             .collection('users')
-            .find({email: email})
+            .find({})
             .toArray(function(err, docs) {
                 err ? reject(err) : resolve(docs);
         });    
     })
-}
-
-// find user account
-function findOne(email){
-    return new Promise((resolve, reject) => {    
-        const customers = db
-            .collection('users')
-            .findOne({email: email})
-            .then((doc) => resolve(doc))
-            .catch((err) => reject(err));    
-    })
-}
-
-// update - deposit/withdraw amount
-function update(email, amount){
-    return new Promise((resolve, reject) => {    
-        const customers = db
-            .collection('users')            
-            .findOneAndUpdate(
-                {email: email},
-                { $inc: { balance: amount}},
-                { returnOriginal: false },
-                function (err, documents) {
-                    err ? reject(err) : resolve(documents);
-                }
-            );            
-
-
-    });    
 }
 
 // all users
@@ -74,5 +43,36 @@ function all(){
     })
 }
 
+// verify the user / login
+function login(email){
+    return new Promise((resolve, reject) => {
+        const collection = db
+        .collection('users')
+        .findOne({ email: email })
+        .then((doc)=> resolve(doc))
+        .catch((err)=> reject(err));
+    })
+}
 
-module.exports = {create, findOne, find, update, all};
+function deposit(email, amount) {
+    return new Promise((resolve, reject) => {
+        
+            const user = db
+                .collection('users')
+                .findOne({ email: email })
+                .then((doc)=> {
+                    db.collection('users')
+                    .updateOne(
+                            {email: email}, 
+                            {$set: {balance: Number(doc.balance) + Number(amount)}},
+                        ).then(res => {
+                            resolve(db.collection('users').findOne({email: email}))
+                        });
+                    }).
+                    catch((err) =>  {
+                        reject(err)
+                    })
+    });
+}
+
+module.exports = {create, all, login, userdata, deposit};

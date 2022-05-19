@@ -1,7 +1,7 @@
 function Deposit(){
   const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState('');  
-
+  const [status, setStatus] = React.useState(''); 
+  
   return (
     <Card
       bgcolor="warning"
@@ -10,7 +10,7 @@ function Deposit(){
       body={show ? 
         <DepositForm setShow={setShow} setStatus={setStatus}/> :
         <DepositMsg setShow={setShow}/>}
-    />
+        />
   )
 }
 
@@ -28,21 +28,33 @@ function DepositMsg(props){
 function DepositForm(props){
   const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
-  const ctx = React.useContext(UserContext);  
+  const [user, setUser]     = React.useState('');
+  const ctx = React.useContext(UserContext);
 
   function handle(){
     console.log(email,amount);
-    const user = ctx.users.find((user) => user.email == email);
-    if (!user) {
+    const url = `account/deposit/${email}/${amount}`;
+    (async ()=> {
+      var res = await fetch(url); // catchs the response with url data from the database(user)
+      var data = await res.json(); //set that user equal to 'data'
+      const user = data;
+      console.log(data);
+      ctx.user.balance += amount;
+      console.log(ctx);
+      props.setShow(false);
+    
+    if(!user) {
       props.setStatus('fail!');
       return;      
     }
-
-    user.balance = user.balance + Number(amount);
-    console.log(user);
-    props.setStatus('');      
-    props.setShow(false);
-  }
+    
+      console.log(user);
+      console.log(user.balance);
+      props.setStatus('');      
+      props.setShow(false);
+    })();
+    }
+  
 
   return(<>
 

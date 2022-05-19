@@ -30,8 +30,16 @@ function CreateForm(props){
   const ctx = React.useContext(UserContext);  
 
   function handle(){
-    console.log(name,email,password);
-    ctx.users.push({name,email,password});
+    console.log(`Creating account: ${name}, ${email}, ${password}, balance: 0`);
+    // ctx.users.push({name,email,password});
+
+    const url = `account/create/${name}/${email}/${password}`;
+    (async () => {
+      var res = await fetch(url); // catchs the response with url data from the database(user)
+      var data = await res.json(); //set that user equal to 'data'
+      console.log(data);
+      console.log(`Account created: ${email}`);
+    })();
     props.setShow(false);
   }    
 

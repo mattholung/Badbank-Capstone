@@ -27,7 +27,7 @@ function NavBar(){
             <a className="nav-link" href="#/alldata/">AllData</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#/getlucky/">Try your Luck?</a>
+            <a className="nav-link" href="#/userdata/">UserData</a>
           </li>
         </ul>
       </div>

@@ -28,11 +28,23 @@ function BalanceMsg(props){
 
 function BalanceForm(props){
   const [email, setEmail]   = React.useState('');
+  const [password, setPassword]   = React.useState('');
   const [balance, setBalance] = React.useState('');  
   const ctx = React.useContext(UserContext);  
 
   function handle(){
     const user = ctx.users.find((user) => user.email == email);
+   const url = `account/login/${email}/${password}`;
+    (async ()=> {
+      var res = await fetch(url); // catchs the response with url data from the database(user)
+      var data = await res.json(); //set that user equal to 'data'
+      const user = data;
+      ctx.users.push(user);
+      console.log(data);
+      console.log(ctx);
+      props.setShow(false);
+      console.log(email, password);
+      
     if (!user) {
       props.setStatus('fail!')      
       return;      
@@ -40,9 +52,10 @@ function BalanceForm(props){
 
     setBalance(user.balance);
     console.log(user);
-    props.setStatus('Your balance is: ' + user.balance);      
+    props.setStatus(`Current balance: ${user.balance}`);      
     props.setShow(false);
-  }
+  })();
+}
 
   return (<>
 
@@ -52,6 +65,13 @@ function BalanceForm(props){
       placeholder="Enter email" 
       value={email} 
       onChange={e => setEmail(e.currentTarget.value)}/><br/>
+    
+    Password<br/>
+    <input type="password" 
+      className="form-control" 
+      placeholder="Enter password" 
+      value={password} 
+      onChange={e => setPassword(e.currentTarget.value)}/><br/>
 
     <button type="submit" 
       className="btn btn-light" 
