@@ -1,83 +1,50 @@
 function Balance(){
-  const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState('');  
-
-  return (
+  const [show, setShow]       = React.useState(true);
+  const [status, setStatus]   = React.useState('');
+  const [user, setUser] = React.useState('');  
+  const ctx = React.useContext(UserContext);
+  let i = ctx.user.length - 1;
+  const account = ctx.user[i];
+  const header  = `current user: ${account.email}`
+  return (<>
     <Card
-      bgcolor="info"
-      header="Balance"
+      bgcolor="primary"
+      header={header}
       status={status}
       body={show ?
-        <BalanceForm setShow={setShow} setStatus={setStatus}/> :
-        <BalanceMsg setShow={setShow}/>}
-    />
+        <BalanceForm setShow={setShow} setStatus={setStatus} setUser={setUser}/> :
+        <BalanceMsg setShow={setShow} user={user}/>}
+        />
+        </>
   )
 
 }
 
 function BalanceMsg(props){
   return(<>
-    <h5>Success</h5>
+    <h7>Your balance: ${props.user.balance}</h7><br/><br/>
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => props.setShow(true)}>
-        Check balance again
-    </button>
+        Hide Balance
+    </button><br/>
   </>);
 }
 
 function BalanceForm(props){
-  const [email, setEmail]   = React.useState('');
-  const [password, setPassword]   = React.useState('');
-  const [balance, setBalance] = React.useState('');  
-  const ctx = React.useContext(UserContext);  
 
-  function handle(){
-    const user = ctx.users.find((user) => user.email == email);
-   const url = `account/login/${email}/${password}`;
-    (async ()=> {
-      var res = await fetch(url); // catchs the response with url data from the database(user)
-      var data = await res.json(); //set that user equal to 'data'
-      const user = data;
-      ctx.users.push(user);
-      console.log(data);
-      console.log(ctx);
-      props.setShow(false);
-      console.log(email, password);
-      
-    if (!user) {
-      props.setStatus('fail!')      
-      return;      
-    }
+  const ctx = React.useContext(UserContext);
+  let i = ctx.user.length - 1;
+  const account = ctx.user[i];
+  console.log(ctx.user.length);
 
-    setBalance(user.balance);
-    console.log(user);
-    props.setStatus(`Current balance: ${user.balance}`);      
-    props.setShow(false);
-  })();
+function handle(){
+  props.setUser(account);
+  props.setShow(false);
 }
-
-  return (<>
-
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
-    
-    Password<br/>
-    <input type="password" 
-      className="form-control" 
-      placeholder="Enter password" 
-      value={password} 
-      onChange={e => setPassword(e.currentTarget.value)}/><br/>
-
-    <button type="submit" 
-      className="btn btn-light" 
-      onClick={handle}>
-        Check Balance
-    </button>
-
-  </>);
-}
+return (
+  <>
+  <button type="submit" className="btn btn-light" onClick={handle}>View Balance</button>
+  </>
+    )
+  }

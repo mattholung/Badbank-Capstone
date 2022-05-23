@@ -1,22 +1,26 @@
 function CreateAccount(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
+  const [user, setUser]     = React.useState('none');
+  const [cardColor, setCardColor] =React.useState('secondary');
 
-  return (
+  return (<>
     <Card
       bgcolor="primary"
       header="Create Account"
       status={status}
       body={show ? 
-        <CreateForm setShow={setShow}/> : 
-        <CreateMsg setShow={setShow}/>}
-    />
+        <CreateForm setUser={setUser} setCardColor={setCardColor} setShow={setShow}/> : 
+        <CreateMsg user={user} setShow={setShow}/>}
+        />
+        </>
   )
 }
 
 function CreateMsg(props){
   return(<>
-    <h5>Success</h5>
+    <h6>Account created: {props.user}</h6><br/>
+    <h6>Proceed to login.</h6><br/>
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => props.setShow(true)}>Add another account</button>
@@ -31,16 +35,35 @@ function CreateForm(props){
 
   function handle(){
     console.log(`Creating account: ${name}, ${email}, ${password}, balance: 0`);
-    // ctx.users.push({name,email,password});
-
+    const balance = 0;
+    console.log(ctx)
+    
     const url = `account/create/${name}/${email}/${password}`;
     (async () => {
       var res = await fetch(url); // catchs the response with url data from the database(user)
       var data = await res.json(); //set that user equal to 'data'
       console.log(data);
-      console.log(`Account created: ${email}`);
+      
+      if(data.email != ''){
+        ctx.user.push({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          balance: data.balance,
+        });
+        props.setUser(data.email);
+        props.setCardColor('primary');
+        console.log(`Account created and logged in: ${email}`);
+        props.setShow(false);
+        return;
+      }
+      if(data.email == ''){
+        props.setUser('please enter a valid email address')
+        props.setCardColor('secondary');
+        console.log('please enter a valid email address');
+        return;
+      }
     })();
-    props.setShow(false);
   }    
 
   return (<>

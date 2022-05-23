@@ -1,70 +1,71 @@
 function Deposit(){
-  const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState(''); 
-  
-  return (
+  const [show, setShow]       = React.useState(true);
+  const [status, setStatus]   = React.useState(''); 
+  const [deposit, setDeposit] = React.useState('');
+  const [balance,setBalance]  = React.useState('');
+  const ctx = React.useContext(UserContext);
+  let i = ctx.user.length - 1;
+  const account = ctx.user[i];
+  const header  = `current user: ${account.email}`
+  return (<>
     <Card
-      bgcolor="warning"
-      header="Deposit"
+      bgcolor="primary"
+      header={header}
       status={status}
       body={show ? 
-        <DepositForm setShow={setShow} setStatus={setStatus}/> :
-        <DepositMsg setShow={setShow}/>}
+        <DepositForm setBalance={setBalance} setDeposit={setDeposit} setShow={setShow} setStatus={setStatus}/> :
+        <DepositMsg balance={balance} deposit={deposit} setShow={setShow}/>}
         />
+        </>
   )
 }
 
 function DepositMsg(props){
   return (<>
-    <h5>Success</h5>
+    <h6>Deposit complete: ${props.deposit}.</h6><br/>
+    <h7>New Balance: ${props.balance}</h7><br/><br/>
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => props.setShow(true)}>
         Deposit again
-    </button>
+    </button><br/>
   </>);
 } 
 
 function DepositForm(props){
-  const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
-  const [user, setUser]     = React.useState('');
   const ctx = React.useContext(UserContext);
 
   function handle(){
-    console.log(email,amount);
-    const url = `account/deposit/${email}/${amount}`;
+    let i = ctx.user.length - 1;
+    const account = ctx.user[i];
+    console.log(account.email, amount)
+    const url = `account/deposit/${account.email}/${amount}`;
     (async ()=> {
       var res = await fetch(url); // catchs the response with url data from the database(user)
       var data = await res.json(); //set that user equal to 'data'
       const user = data;
       console.log(data);
-      ctx.user.balance += amount;
       console.log(ctx);
       props.setShow(false);
     
     if(!user) {
-      props.setStatus('fail!');
+      props.setStatus('You are not logged in.');
       return;      
     }
-    
+      account.balance = account.balance + Number(amount);
+      props.setDeposit(amount);
+      props.setBalance(account.balance);
       console.log(user);
-      console.log(user.balance);
-      props.setStatus('');      
+      console.log(user.balance);    
       props.setShow(false);
     })();
     }
   
 
   return(<>
-
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
       
-    Amount<br/>
+    Deposit amount:<br/><br/>
     <input type="number" 
       className="form-control" 
       placeholder="Enter amount" 

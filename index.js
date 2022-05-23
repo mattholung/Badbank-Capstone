@@ -53,6 +53,14 @@ app.get('/account/deposit/:email/:amount', function (req, res){
     });
 });
 
+app.get('/account/withdraw/:email/:amount', function (req, res){
+    dal.withdraw(req.params.email, req.params.amount)
+    .then((user) => {
+    console.log(user);
+    res.send(user);
+    });
+});
+
 var port = 3000;
 app.listen(port);
 console.log(`Running on port: ${port}`);
