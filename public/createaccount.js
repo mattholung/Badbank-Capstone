@@ -41,13 +41,13 @@ function CreateForm(props){
   function handle(){
     console.log(`Creating account: ${name}, ${email}, ${password}, balance: 0`);
     const balance = 0;
-    console.log(ctx)
+    //console.log(ctx)
     
     const url = `account/create/${name}/${email}/${password}`;
     (async () => {
       var res = await fetch(url); // catchs the response with url data from the database(user)
       var data = await res.json(); //set that user equal to 'data'
-      console.log(data);
+      //console.log(data);
       
       if(data.email != ''){
         ctx.user.push({

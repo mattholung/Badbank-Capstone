@@ -43,9 +43,6 @@ function NavBar(){
           <a className="nav-link" href="#/userdata/">My-Account</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#/deleteaccount/">Delete-Account</a>
-        </li>
-        <li className="nav-item">
           <a className="nav-link" href="#/alldata/">All-Data</a>
         </li>
       </ul>
