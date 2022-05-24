@@ -6,7 +6,7 @@ Description/Motivation: This project's purpose it to fulfill my assignments for 
 
 Installation Guidelines: Pull this repository and clone it onto your local machine using 'git clone https://github.com/mattholung/Week27.git'. After cloning, run 'npm install' to download all of the dependencies and packages needed to run. Spin up an express server to make calls/requests to the server. Now to start the mongo database, pull the mongo image down from docker using 'docker pull mongo' and run it to spin up a container. Once the container is running, download 'studio 3T' and make a connection to port: 27017 which is the mongo database running on the container. Run your application within the directory using node index.js.
 
-Screenshots:
+Screenshots: ![](https://github.com/mattholung/Week27/blob/main/images/Screen%20Shot%202022-04-28%20at%207.32.20%20PM.png)
 
 Technology used: The front-end was built using React. Its running an ExpressJS server, and the database is handled using MongoDB within a docker container. 
 
