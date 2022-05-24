@@ -1,28 +1,31 @@
 function NavBar(){
   const [show,setShow] = React.useState(true);
-  
+  const [account, setAccount] = React.useState('');
+
   return( show ?
     <NavLoggedOut setShow={setShow}/>:
-    <NavLoggedIn show={show} setShow={setShow}/>
+    <NavLoggedIn show={show} setShow={setShow} setAccount={setAccount} account={account}/>
     );
   }
   
   function NavLoggedIn(props){
-    
-    function handle(){
-      props.setShow(true);  
-    }
+    const ctx = React.useContext(UserContext);
+    let i = ctx.user.length - 1;
+    const account = ctx.user[i];
+    const email = account.email;
 
-    function handleLogout() {
+    
+    function handleLogout() {  
       location.href = "#";
       location.reload();
+      alert('BadBank: Logout Successful.');
     }
-    
+
     return(
       
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <a className="navbar-brand" href="#">BaddBank</a>
-    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse" id="navbarNav">
@@ -37,16 +40,22 @@ function NavBar(){
           <a className="nav-link" href="#/balance/">Balance</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#/alldata/">AllData</a>
+          <a className="nav-link" href="#/userdata/">My-Account</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#/userdata/">My Account</a>
+          <a className="nav-link" href="#/deleteaccount/">Delete-Account</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#/alldata/">All-Data</a>
         </li>
       </ul>
-      <ul className="navbar-nav">
-      <button type="submit" className="btn btn-dark" size="30" onClick={handleLogout}>Logout</button>
-      </ul>
     </div>
+        <li className="nav justify-content-end">
+          <a className="nav-link disabled">Logged in: {email}</a>
+        </li>
+      <ul className="nav justify-content-end">
+      <button type="submit" className="btn btn-light" onClick={handleLogout}>Logout</button>
+      </ul>
   </nav>
 
 );
@@ -93,7 +102,7 @@ function NavLoggedOut(props){
 
   return(
     
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <a className="navbar-brand" href="#">BaddBank</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
@@ -105,6 +114,9 @@ function NavLoggedOut(props){
           </li>
         </ul>
       </div>
+      <li className="nav justify-content-end">
+          <a className="nav-link disabled">Please Login:</a>
+        </li>
       <ul className="navbar-nav">
       <input type="input" 
       className="form-control" 
@@ -122,7 +134,7 @@ function NavLoggedOut(props){
       onChange={e => setPassword(e.currentTarget.value)}/>
       </ul>
       <ul className="navbar-nav">
-      <button type="submit" className="btn btn-dark" onClick={handle}>Login</button>
+      <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
       </ul>
     </nav>
   );

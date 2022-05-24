@@ -6,10 +6,10 @@ function Withdraw(){
   const ctx = React.useContext(UserContext);
   let i = ctx.user.length - 1;
   const account = ctx.user[i];
-  const header  = `current user: ${account.email}`
+  const header  = `Withdraw from account: ${account.email}`
   return (
     <Card
-      bgcolor="primary"
+      bgcolor="dark"
       header={header}
       status={status}
       body={show ? 

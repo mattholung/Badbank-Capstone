@@ -6,13 +6,17 @@ function AllData(){
     });
 
     const styleTr = {
-      border: "1px solid black",
-      padding: "3px"
+      color: "#b2e6ff",
+      border: "1px solid grey",
+      padding: "8px",
+      background:"black"
     }
 
     const styleTd = {
-      border: "1px solid black",
-      padding: "5px"
+      color: "#b2e6ff",
+      border: "1px solid grey",
+      padding: "5px",
+      background: "black"
     }
     
     
@@ -25,7 +29,7 @@ function AllData(){
         <tr style={styleTr}><th style={styleTd}>id</th><th style={styleTd}>name</th><th style={styleTd}>email</th><th style={styleTd}>password</th><th style={styleTd}>balance</th></tr>
         {data.map(d => {
         return (
-          <tr key={d._id}  style={styleTr}><td style={styleTd}>{d._id}</td><td style={styleTd}>{d.name}</td><td style={styleTd}>{d.email}</td><td style={styleTd}>{d.password}</td><td style={styleTd}>{d.balance}</td></tr>
+          <tr key={d._id}  style={styleTr}><td style={styleTd}>{d._id}</td><td style={styleTd}>{d.name}</td><td style={styleTd}>{d.email}</td><td style={styleTd}>{d.password}</td><td style={styleTd}>${d.balance}</td></tr>
         )
       })}
       </table>

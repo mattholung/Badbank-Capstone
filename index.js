@@ -61,6 +61,14 @@ app.get('/account/withdraw/:email/:amount', function (req, res){
     });
 });
 
+app.get('/acount/destroy/:email',function (req, res){
+    dal.destroy(req.params.email)
+    .then((user) => {
+    console.log(user);
+    res.send(user);
+    })
+})
+
 var port = 3000;
 app.listen(port);
 console.log(`Running on port: ${port}`);

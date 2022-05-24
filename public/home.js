@@ -8,7 +8,8 @@ function Home(){
   const header  = `current user: ${account.email}`
   return (
     <Card
-      txtcolor="black"
+      txtcolor="light"
+      bgcolor="dark"
       header="BadBank Capstone Project: Matthew Holung"
       title="Welcome to BadBank"
       text="You can move around using the navigation bar. Start by logging in at the top right corner. If you do not have an account, create an account today!"

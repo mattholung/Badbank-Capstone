@@ -4,11 +4,11 @@ function UserData(){
   const ctx = React.useContext(UserContext);
   let i = ctx.user.length - 1;
   const account = ctx.user[i];
-  const header  = `current user: ${account.email}`
+  const header  = `Account Overview: ${account.email}`
 
   return (<>
     <Card
-    bgcolor="primary"
+    bgcolor="dark"
     header={header}
     body={show ? 
       <UserDataForm  setShow={setShow}  setUser={setUser}/> :
@@ -20,10 +20,10 @@ function UserData(){
     
     function UserDataMsg(props){
       return(<>
-      <h7>Name: {props.user.name}</h7><br/>
-      <h7>Email/Username: {props.user.email}</h7><br/>
-      <h7>Password: {props.user.password}</h7><br/>
-      <h7>Account Balance: ${props.user.balance}</h7><br/><br/>
+      <h7>Name            : {props.user.name}</h7><br/>
+      <h7>Email/Username  : {props.user.email}</h7><br/>
+      <h7>Password        : {props.user.password}</h7><br/>
+      <h7>Account Balance : ${props.user.balance}</h7><br/><br/>
       <button type="submit" className="btn btn-light" onClick={() => props.setShow(true)}>Hide Account Info</button>
     </>);
   }

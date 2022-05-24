@@ -94,4 +94,15 @@ function withdraw(email, amount) {
                     })
     });
 }
-module.exports = {create, all, login, deposit, withdraw, userdata};
+
+function destroy(email){
+    return new Promise((resolve, reject) => {
+        const collection = db
+        .collection('users')
+        .deleteOne({ email: email })
+        .then((doc)=> resolve(doc))
+        .catch((err)=> reject(err));
+    })
+}
+
+module.exports = {create, all, login, deposit, withdraw, userdata, destroy};

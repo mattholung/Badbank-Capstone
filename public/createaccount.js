@@ -2,15 +2,14 @@ function CreateAccount(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
   const [user, setUser]     = React.useState('none');
-  const [cardColor, setCardColor] =React.useState('secondary');
 
   return (<>
     <Card
-      bgcolor="primary"
-      header="Create Account"
+      bgcolor="dark"
+      header="Create an Account"
       status={status}
       body={show ? 
-        <CreateForm setUser={setUser} setCardColor={setCardColor} setShow={setShow}/> : 
+        <CreateForm setUser={setUser} setShow={setShow}/> : 
         <CreateMsg user={user} setShow={setShow}/>}
         />
         </>
@@ -18,12 +17,18 @@ function CreateAccount(){
 }
 
 function CreateMsg(props){
+  
+  function handleCreate() {  
+    location.href = "#";
+    //alert('Account created. Please Login');
+  }
+
   return(<>
     <h6>Account created: {props.user}</h6><br/>
     <h6>Proceed to login.</h6><br/>
     <button type="submit" 
       className="btn btn-light" 
-      onClick={() => props.setShow(true)}>Add another account</button>
+      onClick={handleCreate}>Return to Home</button>
   </>);
 }
 
@@ -52,14 +57,12 @@ function CreateForm(props){
           balance: data.balance,
         });
         props.setUser(data.email);
-        props.setCardColor('primary');
         console.log(`Account created and logged in: ${email}`);
         props.setShow(false);
         return;
       }
       if(data.email == ''){
         props.setUser('please enter a valid email address')
-        props.setCardColor('secondary');
         console.log('please enter a valid email address');
         return;
       }
@@ -68,21 +71,21 @@ function CreateForm(props){
 
   return (<>
 
-    Name<br/>
+    Name:<br/>
     <input type="input" 
       className="form-control" 
       placeholder="Enter name" 
       value={name} 
       onChange={e => setName(e.currentTarget.value)} /><br/>
 
-    Email address<br/>
+    Email address:<br/>
     <input type="input" 
       className="form-control" 
       placeholder="Enter email" 
       value={email} 
       onChange={e => setEmail(e.currentTarget.value)}/><br/>
 
-    Password<br/>
+    Password:<br/>
     <input type="password" 
       className="form-control" 
       placeholder="Enter password" 

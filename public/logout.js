@@ -17,9 +17,14 @@ function Logout(){
     }
     
     function LogoutMsg(props){
-      function goodbye(){
-      
+      const ctx = React.useContext(LoginContext);
+
+    function goodbye(){
+        props.setUser('');
+        props.setShow(true);
+        
       }
+
       return(<>
       <h5>Are you sure you want to log out {props.user.name}?</h5>
       <button type="submit" className="btn btn-light" onClick={goodbye}>Confirm Log-out</button>
